@@ -881,25 +881,38 @@ tr:hover td {
         overflow: visible !important;
         margin: 0 !important;
         padding: 0 !important;
+        width: 100vw;
     }
 
+    /* Hide EVERYTHING by default */
     .app-container,
+    .modal,
     .modal-header,
-    .form-actions:not(.receipt-actions),
+    .form-actions,
     .close-modal,
-    button:not(.btn-print) {
+    button,
+    footer,
+    aside,
+    header {
         display: none !important;
     }
 
-    .modal {
-        position: static !important;
+    /* Show ONLY the sale details modal and its relevant content */
+    #modal-sale-details {
         display: block !important;
-        background: none !important;
-        backdrop-filter: none !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
         padding: 0 !important;
+        margin: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
     }
 
-    .modal-content {
+    #modal-sale-details .modal-content {
+        display: block !important;
         width: 100% !important;
         max-width: none !important;
         border: none !important;
@@ -908,27 +921,57 @@ tr:hover td {
         padding: 0 !important;
     }
 
-    .sale-receipt {
-        max-width: 100% !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 5mm !important;
-        border: none !important;
-        box-shadow: none !important;
+    /* Hide the buttons inside the modal footer when printing */
+    #modal-sale-details .form-actions {
+        display: none !important;
     }
 
-    .sale-receipt h2,
-    .sale-receipt h3,
-    .sale-receipt p,
-    .sale-receipt td,
-    .sale-receipt th,
-    .sale-receipt strong {
+    .sale-receipt {
+        display: block !important;
+        max-width: 100% !important;
+        width: 95% !important;
+        /* Slightly less than 100 to avoid clipping on some printers */
+        margin: 0 auto !important;
+        padding: 2mm 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+    }
+
+    /* Force visibility of receipt content */
+    #sale-details-content {
+        display: block !important;
+    }
+
+    /* Ensure text is black and crisp */
+    .sale-receipt * {
         color: #000 !important;
+        background-color: transparent !important;
     }
 
     .receipt-section-info {
-        background-color: #f8fafc !important;
+        background-color: #f1f5f9 !important;
+        border: 1px solid #e2e8f0 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+    }
+
+    /* Reduce vertical spacing for thermal paper */
+    .receipt-header-main {
+        margin-bottom: 10px !important;
+    }
+
+    .receipt-title {
+        margin: 5px 0 !important;
+        padding: 5px 0 !important;
+    }
+
+    .receipt-meta-grid {
+        margin-bottom: 10px !important;
+        gap: 10px !important;
+    }
+
+    .receipt-table-refined {
+        margin: 10px 0 !important;
     }
 }
