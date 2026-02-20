@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HG Tech | Controle de Vendas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="logo.png" alt="HG Tech Logo" class="logo-img">
+                    <span>HG Tech</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" data-page="dashboard">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </li>
+                    <li data-page="pdv">
+                        <i class="fas fa-cash-register"></i> PDV (Vendas)
+                    </li>
+                    <li data-page="historico">
+                        <i class="fas fa-history"></i> Histórico
+                    </li>
+                    <li data-page="produtos">
+                        <i class="fas fa-boxes-stacked"></i> Produtos
+                    </li>
+                    <li data-page="relatorios">
+                        <i class="fas fa-file-invoice-dollar"></i> Relatórios
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 HG Tech</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="user-info">
+                    <span id="current-date">--/--/----</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Page -->
+            <section id="page-dashboard" class="page active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Vendas Hoje</h3>
+                            <p class="stat-value" id="stat-sales-today">R$ 0,00</p>
+                        </div>
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Vendas Mês</h3>
+                            <p class="stat-value" id="stat-sales-month">R$ 0,00</p>
+                        </div>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total de Vendas</h3>
+                            <p class="stat-value" id="stat-sales-total">R$ 0,00</p>
+                        </div>
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+
+                <div class="recent-sales-container">
+                    <div class="section-header">
+                        <h2>Vendas Recentes</h2>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="recent-sales-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Cliente</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dinamicamente preenchido -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PDV Page -->
+            <section id="page-pdv" class="page">
+                <div class="pdv-grid">
+                    <div class="pdv-left">
+                        <!-- Quick Items Section -->
+                        <div class="pdv-section">
+                            <div class="pdv-section-header">
+                                <h3>Itens Rápidos</h3>
+                                <div class="pdv-controls">
+                                    <button class="btn btn-primary btn-sm" id="btn-new-item-pdv">
+                                        <i class="fas fa-plus"></i> Novo Item
+                                    </button>
+                                    <div class="search-box">
+                                        <i class="fas fa-search"></i>
+                                        <input type="text" id="product-search" placeholder="Buscar item...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-selection-grid" id="product-list">
+                                <!-- Quick pill buttons will be here -->
+                            </div>
+                        </div>
+
+                        <!-- Manual Entry Section -->
+                        <div class="manual-entry-container">
+                            <h3>Adicionar Item Manualmente</h3>
+                            <form id="manual-item-form" class="manual-form">
+                                <input type="text" id="manual-name" placeholder="Descrição do Item/Serviço" required>
+                                <input type="number" id="manual-qty" value="1" min="1" required>
+                                <input type="number" id="manual-price" step="0.01" placeholder="R$ Preço Unit."
+                                    required>
+                                <button type="submit" class="btn btn-primary btn-add-manual">Adicionar Item à
+                                    Venda</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="pdv-right">
+                        <div class="cart-container">
+                            <div class="cart-header">
+                                <h3>Carrinho</h3>
+                                <button id="clear-cart" class="btn-icon"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                            <div class="cart-items" id="cart-items-list">
+                                <!-- Itens do carrinho -->
+                            </div>
+                            <div class="cart-footer">
+                                <div class="checkout-info">
+                                    <div class="form-group-sm">
+                                        <label>Cliente</label>
+                                        <input type="text" id="checkout-client-name" placeholder="Nome do Cliente">
+                                    </div>
+                                    <div class="form-row-sm">
+                                        <div class="form-group-sm">
+                                            <label>CPF</label>
+                                            <input type="text" id="checkout-client-cpf" placeholder="000.000.000-00">
+                                        </div>
+                                        <div class="form-group-sm">
+                                            <label>WhatsApp</label>
+                                            <input type="text" id="checkout-client-wa" placeholder="(15) 99999-9999">
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <label>Forma de Pagamento</label>
+                                        <select id="checkout-payment-method">
+                                            <option value="Pix">Pix</option>
+                                            <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                            <option value="Cartão de Débito">Cartão de Débito</option>
+                                            <option value="Dinheiro">Dinheiro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="cart-total">
+                                    <span>Total:</span>
+                                    <span id="cart-total-value">R$ 0,00</span>
+                                </div>
+                                <div class="cart-actions">
+                                    <button id="checkout-btn" class="btn btn-primary btn-block">Finalizar Venda</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Historico Page -->
+            <section id="page-historico" class="page">
+                <div class="filters-bar">
+                    <input type="date" id="history-filter-date">
+                    <input type="text" id="history-filter-client" placeholder="Filtrar por cliente...">
+                    <button id="clear-filters" class="btn btn-secondary">Limpar</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="history-table">
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Cliente</th>
+                                <th>Produtos</th>
+                                <th>Total</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <!-- Dinamicamente preenchido -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Produtos Page -->
+            <section id="page-produtos" class="page">
+                <div class="section-actions">
+                    <button class="btn btn-primary" id="btn-new-product">
+                        <i class="fas fa-plus"></i> Novo Produto/Serviço
+                    </button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="products-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-body">
+                            <!-- Dinamicamente preenchido -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Relatorios Page -->
+            <section id="page-relatorios" class="page">
+                <div class="report-controls">
+                    <div class="control-group">
+                        <label>Tipo de Relatório:</label>
+                        <select id="report-type">
+                            <option value="daily">Diário</option>
+                            <option value="monthly">Mensal</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>Período:</label>
+                        <input type="month" id="report-period">
+                    </div>
+                    <button id="btn-generate-report" class="btn btn-primary">Gerar Relatório</button>
+                </div>
+
+                <div id="report-result" class="report-result-container">
+                    <!-- Dinamicamente preenchido -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for New Product -->
+    <div id="modal-product" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Novo Produto/Serviço</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <form id="form-product">
+                <input type="hidden" id="prod-id">
+                <div class="form-group">
+                    <label for="prod-name">Nome:</label>
+                    <input type="text" id="prod-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="prod-category">Categoria:</label>
+                    <select id="prod-category">
+                        <option value="Produtos">Produtos</option>
+                        <option value="Serviços">Serviços</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prod-price">Preço (R$):</label>
+                    <input type="number" id="prod-price" step="0.01" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Cart Item -->
+    <div id="modal-cart-item" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Item no Carrinho</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <form id="form-cart-item">
+                <input type="hidden" id="cart-item-id">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" id="cart-item-name" readonly
+                        style="background-color: var(--bg-sidebar); opacity: 0.7;">
+                </div>
+                <div class="form-row"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 0 1.5rem 1rem;">
+                    <div class="form-group" style="padding: 0;">
+                        <label>Quantidade:</label>
+                        <input type="number" id="cart-item-qty" min="1" required>
+                    </div>
+                    <div class="form-group" style="padding: 0;">
+                        <label>Preço Unit. (R$):</label>
+                        <input type="number" id="cart-item-price" step="0.01" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Atualizar Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Sale Details -->
+    <div id="modal-sale-details" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detalhes da Venda</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div id="sale-details-content">
+                <!-- Preenchido via JS -->
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary close-modal-btn">Fechar</button>
+                <button class="btn btn-success" id="btn-whatsapp-receipt"
+                    style="background-color: #25d366; color: white;">
+                    <i class="fab fa-whatsapp"></i> Enviar WhatsApp
+                </button>
+                <button class="btn btn-primary" id="btn-print-receipt">Imprimir Cupom</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
