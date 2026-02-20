@@ -867,3 +867,68 @@ tr:hover td {
         order: -1;
     }
 }
+
+/* --- Print Styles --- */
+@page {
+    margin: 0;
+    size: auto;
+}
+
+@media print {
+    body {
+        background-color: #fff !important;
+        color: #000 !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .app-container,
+    .modal-header,
+    .form-actions:not(.receipt-actions),
+    .close-modal,
+    button:not(.btn-print) {
+        display: none !important;
+    }
+
+    .modal {
+        position: static !important;
+        display: block !important;
+        background: none !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+    }
+
+    .modal-content {
+        width: 100% !important;
+        max-width: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .sale-receipt {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 5mm !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .sale-receipt h2,
+    .sale-receipt h3,
+    .sale-receipt p,
+    .sale-receipt td,
+    .sale-receipt th,
+    .sale-receipt strong {
+        color: #000 !important;
+    }
+
+    .receipt-section-info {
+        background-color: #f8fafc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
